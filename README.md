@@ -24,41 +24,41 @@ Besides the normalization, trendlines are also very important for improving the 
 
 Random forest, 30 days ratio prediction:
 
-  <a href="url"><img src="./assets/30days_ratio_prediction_RF.png" style="margin-left: 10%" height=400px></a>
+  <a href="./assets/30days_ratio_prediction_RF.png"><img src="./assets/30days_ratio_prediction_RF.png" style="margin-left: 10%" height=400px></a>
 
   <p style="text-align:center">MAE: 0.550</p>
 
 LightGBM, 30 days ratio prediction:
 
-  <a href="url"><img src="./assets/30days_ratio_prediction_lgb.png" style="margin-left: 10%" height=400px></a>
+  <a href="./assets/30days_ratio_prediction_lgb.png"><img src="./assets/30days_ratio_prediction_lgb.png" style="margin-left: 10%" height=400px></a>
   <p style="text-align:center">MAE score: 1.238</p>
 
 
 
 XGBoost, 30 days ratio prediction:
 
-<a href="url"><img src="./assets/30days_ratio_prediction_XGB.png" style="margin-left: 10%" height=400px></a>
+<a href="./assets/30days_ratio_prediction_XGB.png"><img src="./assets/30days_ratio_prediction_XGB.png" style="margin-left: 10%" height=400px></a>
 <p style="text-align:center">MAE score: 0.493</p>
 
 As we can see, XGBoost performs the best in this bunch. If we would to compare it to the actual index:
 
-<a href="url"><img src="./assets/30days_prediction_XGB.png" style="margin-left: 10%" height=400px></a>
+<a href="./assets/30days_prediction_XGB.png"><img src="./assets/30days_prediction_XGB.png" style="margin-left: 10%" height=400px></a>
 
 It predicted the SP500 pretty well. We can also zoom in a bit closer:
 
-  <a href="url"><img src="./assets/30days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
+  <a href="./assets/30days_prediction_XGB_2018-08.png"><img src="./assets/30days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
 
 Some of the local extrema are shifted, which is expected. Since the grid is one month wide, we can see that the delay is only a few days. However, of course, that will increase if we increase the prediction distance, for example, 60 days:
 
- <a href="url"><img src="./assets/60days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
+ <a href="./assets/60days_prediction_XGB_2018-08.png"><img src="./assets/60days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
 
 The prediction does lag a bit more. The MAE is 0.601 for the ratio prediction. Noting the smoothed SP500 dataset is obtained by passing the original data through a Blackman filter with a window size equal to the prediction distance, so the MAE values are not directly comparable. To test the limit of the model, let's try a prediction distance of 90 days:
 
- <a href="url"><img src="./assets/90days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
+ <a href="./assets/90days_prediction_XGB_2018-08.png"><img src="./assets/90days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
 
  The MAE is still around 0.899, which means the ratio only deviated 0.899% from the smoothed dataset, on average. It did predict the 2018 year end stock crash, even though its with a 1 month delay. With a prediction distance of 90 days, 30 days delay is not too unexpected. However, if we zoom out a bit more:
 
-   <a href="url"><img src="./assets/90days_prediction_XGB_2016.png" style="margin-left: 10%" height=400px></a>
+   <a href="./assets/90days_prediction_XGB_2016.png"><img src="./assets/90days_prediction_XGB_2016.png" style="margin-left: 10%" height=400px></a>
 
    We can see this model is significantly less reliable at 90 days than at 30 days
 
