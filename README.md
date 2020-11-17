@@ -64,7 +64,7 @@ The prediction does lag a bit more. The MAE is 0.601 for the ratio prediction. N
 
 ## TODO
 
-- Try more models (i.e. SVM, MLP, CNN)
+- ~~Try more models (i.e. SVM, MLP, CNN)~~ See the [DNN branch](/tree/DNN) for neural network models
 - export the trained model and wrap the code so it can send the prediction periodically (i.e. monthly/ bi-weekly) through email
 
 ## License
