@@ -3,7 +3,7 @@ Using machine learning to predict the SP500 index
 
 ---
 ## Intro
-As a learning project, I decided to predict the SP500 index using random forest, LightGBM, and XGBoost. This project originally started in late 2019 but I had no idea how to actually get the machine learning part done until I took the Kaggle lessons (hence the 3 models used). As I am now taking Intelligent Systems Engineering (mostly about neural networks) at school, hopefully, I can test out more models.
+As a learning project, I decided to (try to) predict the SP500 index using random forest, LightGBM, and XGBoost, and also combine the results with another layer of a mechine learning model. The concept of this project first formed in late 2019 but I had no idea how to get the machine learning part done until I took the Kaggle lessons in the summer of 2020 (hence the 3 models used). Since I took Intelligent Systems Engineering at school during the fall, I was able to learn and try some deep learning models as well.
 
 ## Method
 
@@ -17,55 +17,30 @@ For example, if we are predicting the index 30 days away:
 
 This moving normalization/ ratio formula was chosen so the data would remain in the same ballpark for all the values. In a distanced sense, this is like a derivative, as both are describing the rate of change. Noting the ratio has the index of i+predict_distance, otherwise, we will have a leak.
 
-Besides the normalization, trendlines are also very important for improving the prediction. For the current implementation, only the first and second order polynomial extrapolations are used since the linear (first order) extrapolation provides most of the benefit.
 
 
 ## Results
+The results, as expected, are horrible. If it is this easy to predict the market, then someone would be already doing it. The results obtained originally were too good to be true, so I went through the code to refactor and double-check the validity of the data processing method, and found errors in some indexing (most significantly in extrapolating the current value) that leaked the future results into the current time data. After fixing the leak, the prediction results of the ratio have shown very little correlation with the actual values:
 
-Random forest, 30 days ratio prediction:
+<a href="./assets/30days_prediction_ratio.png"><img src="./assets/30days_prediction_ratio.png" style="margin-left: 10%" height=400px></a>
 
-  <a href="./assets/30days_ratio_prediction_RF.png"><img src="./assets/30days_ratio_prediction_RF.png" style="margin-left: 10%" height=400px></a>
+With most of the predictions being constant values close to zero, means the reconstructed S&P 500 would be simply autocorrelated to itself (i.e. it's just a time-delayed version), as shown here for the combined GBR model.
+<a href="./assets/30days_prediction_gbr.png"><img src="./assets/30days_prediction_gbr.png" style="margin-left: 10%" height=400px></a>
 
-  <p style="text-align:center">MAE: 0.550</p>
+Autocorrelated result doesn’t really hold much useful information, and if we take a look at the cross-correlation plot:
 
-LightGBM, 30 days ratio prediction:
+<a href="./assets/30days_prediction_gbr_cc.png"><img src="./assets/30days_prediction_gbr_cc.png" style="margin-left: 10%" height=400px></a>
 
-  <a href="./assets/30days_ratio_prediction_lgb.png"><img src="./assets/30days_ratio_prediction_lgb.png" style="margin-left: 10%" height=400px></a>
-  <p style="text-align:center">MAE score: 1.238</p>
+We can see a significant peak at -30days, which is the prediction distance.
 
+## Conclusion
+Even though this project did not successfully predict the market (as expected since the get-go), I still learnt important lessons from the experience, such as the importance of preventing data leakage (and how to verify them), the general process of applying machine learning on time series data sets (data processing with pandas and NumPy), and how to properly evaluate the performance of the model (such as the use of cross-correlation analysis).
 
-
-XGBoost, 30 days ratio prediction:
-
-<a href="./assets/30days_ratio_prediction_XGB.png"><img src="./assets/30days_ratio_prediction_XGB.png" style="margin-left: 10%" height=400px></a>
-<p style="text-align:center">MAE score: 0.493</p>
-
-As we can see, XGBoost performs the best in this bunch. If we would to compare it to the actual index:
-
-<a href="./assets/30days_prediction_XGB.png"><img src="./assets/30days_prediction_XGB.png" style="margin-left: 10%" height=400px></a>
-
-It predicted the SP500 pretty well. We can also zoom in a bit closer:
-
-  <a href="./assets/30days_prediction_XGB_2018-08.png"><img src="./assets/30days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
-
-Some of the local extrema are shifted, which is expected. Since the grid is one month wide, we can see that the delay is only a few days. However, of course, that will increase if we increase the prediction distance, for example, 60 days:
-
- <a href="./assets/60days_prediction_XGB_2018-08.png"><img src="./assets/60days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
-
-The prediction does lag a bit more. The MAE is 0.601 for the ratio prediction. Noting the smoothed SP500 dataset is obtained by passing the original data through a Blackman filter with a window size equal to the prediction distance, so the MAE values are not directly comparable. To test the limit of the model, let's try a prediction distance of 90 days:
-
- <a href="./assets/90days_prediction_XGB_2018-08.png"><img src="./assets/90days_prediction_XGB_2018-08.png" style="margin-left: 10%" height=400px></a>
-
- The MAE is still around 0.899, which means the ratio only deviated 0.899% from the smoothed dataset, on average. It did predict the 2018 year end stock crash, even though its with a 1 month delay. With a prediction distance of 90 days, 30 days delay is not too unexpected. However, if we zoom out a bit more:
-
-   <a href="./assets/90days_prediction_XGB_2016.png"><img src="./assets/90days_prediction_XGB_2016.png" style="margin-left: 10%" height=400px></a>
-
-   We can see this model is significantly less reliable at 90 days than at 30 days
 
 ## TODO
 
 - ~~Try more models (i.e. SVM, MLP, CNN)~~ See the [DNN branch](../../tree/DNN) for neural network models
-- export the trained model and wrap the code so it can send the prediction periodically (i.e. monthly/ bi-weekly) through email
+- ~~ export the trained model and wrap the code so it can send the prediction periodically (i.e. monthly/ bi-weekly) through email ~~
 
 ## License
 My work is released under the MIT license
