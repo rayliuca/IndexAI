@@ -40,7 +40,7 @@ Even though this project did not successfully predict the market (as expected si
 ## TODO
 
 - ~~Try more models (i.e. SVM, MLP, CNN)~~ See the [DNN branch](../../tree/DNN) for neural network models
-- ~~ export the trained model and wrap the code so it can send the prediction periodically (i.e. monthly/ bi-weekly) through email ~~
+- ~~export the trained model and wrap the code so it can send the prediction periodically (i.e. monthly/ bi-weekly) through email~~
 
 ## License
 My work is released under the MIT license
