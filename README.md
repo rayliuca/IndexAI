@@ -24,17 +24,15 @@ Besides the normalization, trendlines are also very important for improving the 
 CNN, 30 days ratio prediction:
 
 <a href="./assets/30days_ratio_prediction_cnn.png"><img src="./assets/30days_ratio_prediction_cnn.png" style="margin-left: 10%" height=400px></a>
-<p style="text-align:center">MAE score: 0.437</p>
 
-As we can see, CNN performs the best in this bunch. If we would to compare it to the actual index:
+As we can see, the result doesn't really correlate to the y values, which means if we would to transform it back to the actual values:
 
 <a href="./assets/30days_prediction_cnn.png"><img src="./assets/30days_prediction_cnn.png" style="margin-left: 10%" height=400px></a>
 
-It predicted the SP500 pretty well. The cross-correlation shows promising results:
+It predicted the SP500 poorly and most of the similarities are simplly comming from the autocorrelation, as we can see from the cross-correlation plot:
 
   <a href="./assets/30days_prediction_cnn_cc.png"><img src="./assets/30days_prediction_cnn_cc.png" style="margin-left: 10%" height=400px></a>
 
-Lets try the prediction distance of 90 days:
 
 ## License
 My work is released under the MIT license
